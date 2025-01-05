@@ -5,7 +5,6 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var connectDB = require("./config");
-var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 const categoryRoutes = require("./routes/categoryRoutes");
 const productRoutes = require("./routes/productRoutes");
@@ -15,6 +14,10 @@ const tolerieRoutes = require("./routes/tolerieRoutes");
 const polissageRoutes = require("./routes/pollissageRoutes");
 const detailingRoutes = require("./routes/detailingRoutes");
 const cors = require("cors");
+const helmet = require('helmet');
+const compression = require('compression');
+const morgan = require('morgan');
+
 var app = express();
 
 const allowedOrigins = [process.env.DNS];
@@ -32,7 +35,7 @@ app.use(express.json({ limit: "2gb" }));
 app.use(express.urlencoded({ limit: "2gb", extended: true }));
 app.use(cookieParser());
 
-app.use("/", indexRouter);
+
 app.use("/users", usersRouter);
 app.use("/categories", categoryRoutes);
 app.use("/products", productRoutes);
@@ -51,5 +54,9 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render("error");
 });
+app.disable('x-powered-by');
+app.use(helmet());
+app.use(compression());
+app.use(morgan('combined'));
 
 module.exports = app;
