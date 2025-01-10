@@ -14,13 +14,13 @@ const tolerieRoutes = require("./routes/tolerieRoutes");
 const polissageRoutes = require("./routes/pollissageRoutes");
 const detailingRoutes = require("./routes/detailingRoutes");
 const cors = require("cors");
-const helmet = require('helmet');
-const compression = require('compression');
-const morgan = require('morgan');
+const helmet = require("helmet");
+const compression = require("compression");
+const morgan = require("morgan");
 
 var app = express();
 
-const allowedOrigins = [process.env.DNS];
+const allowedOrigins = "*";
 app.use(
   cors({
     origin: allowedOrigins,
@@ -34,7 +34,6 @@ app.use(logger("dev"));
 app.use(express.json({ limit: "2gb" }));
 app.use(express.urlencoded({ limit: "2gb", extended: true }));
 app.use(cookieParser());
-
 
 app.use("/users", usersRouter);
 app.use("/categories", categoryRoutes);
@@ -54,9 +53,9 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render("error");
 });
-app.disable('x-powered-by');
+app.disable("x-powered-by");
 app.use(helmet());
 app.use(compression());
-app.use(morgan('combined'));
+app.use(morgan("combined"));
 
 module.exports = app;
