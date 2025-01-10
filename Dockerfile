@@ -7,4 +7,4 @@ EXPOSE 3000
 ENV NODE_ENV=production
 ENV MONGO_URI=mongodb://mongo:27017/safewashdb
 ENV DNS=safewashfrontend:80
-CMD ["node", "app.js"]
+CMD ["node", "./bin/www"]
